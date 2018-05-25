@@ -1,0 +1,27 @@
+version: '2'
+services:
+  dev:
+    container_name: dev
+    image: node:8.11.1
+    stdin_open: true
+    tty: true
+    working_dir: /opt/app/
+    command: bash
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+    volumes:
+      - ./:/opt/app/
+
+  serve:
+    container_name: serve
+    image: nginx:1.12.2
+    stdin_open: true
+    tty: true
+    working_dir: /opt/www/
+    ports:
+      - "8001:8000"
+    volumes:
+      - ./etc/nginx/conf.d/:/etc/nginx/conf.d/
+      - ./build:/opt/www/
