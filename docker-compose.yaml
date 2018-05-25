@@ -8,21 +8,20 @@ services:
     working_dir: /app/
     command: node index.js
     ports:
-      - "3001:3001"
+      - "3002:3002"
     environment:
-      - PORT=3001
+      - PORT=3002
     volumes:
       - ./:/app/
 
   serve:
     container_name: serve
-    #image: nginx:1.12.2
-    build: .
+    image: nginx:1.12.2
     stdin_open: true
     tty: true
     working_dir: /opt/www/
     ports:
       - "8001:8000"
-    volumes:
-      - ./etc/nginx/conf.d/:/etc/nginx/conf.d/
-      - ./build:/opt/www/
+    # volumes:
+    #   - ./etc/nginx/conf.d/:/etc/nginx/conf.d/
+    #   - ./build:/opt/www/
