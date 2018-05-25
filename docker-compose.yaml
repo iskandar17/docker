@@ -5,18 +5,19 @@ services:
     image: node:8.11.1
     stdin_open: true
     tty: true
-    working_dir: /opt/app/
-    command: bash
+    working_dir: /app/
+    command: node index.js
     ports:
       - "3001:3001"
     environment:
       - PORT=3001
     volumes:
-      - ./:/opt/app/
+      - ./:/app/
 
   serve:
     container_name: serve
-    image: nginx:1.12.2
+    #image: nginx:1.12.2
+    build: .
     stdin_open: true
     tty: true
     working_dir: /opt/www/
