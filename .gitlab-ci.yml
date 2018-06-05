@@ -1,0 +1,28 @@
+image: node:8.11.1-alpine
+
+stages:
+  - build
+  - deploy
+
+build-v2:
+  stage: build
+  only:
+    - /^build-v2-.*$/
+  script: 
+    - apk add make --update
+    - make build-v2
+  artifacts:
+    paths:
+    - v2/build/
+    
+deploy-v2:
+  stage: deploy
+  only:
+    - /^build-v2-.*$/
+  script:
+    - apk add openssh-client make --update
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - scp -o StrictHostKeyChecking=no -P 50022 -r v2/build/* USERNAME@IP_ADDRESS:/PATH/TO/FOLDER/
+  dependencies:
+  - build-v2
